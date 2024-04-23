@@ -45,6 +45,11 @@ class SocialmentPlugin implements Plugin
         return 'socialment';
     }
 
+    public function getProviders(): array
+    {
+        return array_merge(config('socialment.providers'), $this->providers);
+    }
+
     public function register(Panel $panel): void
     {
         $panel->renderHook('panels::auth.login.form.before', function () {
