@@ -5,6 +5,23 @@ All notable changes to `socialment` will be documented in this file.
 > [!NOTE]
 Due to an issue in the workflow that generates this changelog, the first two entries were manually added.
 
+## v3.7.0 - 2024-05-03
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.0.0 by @dependabot in https://github.com/chrisreedio/socialment/pull/52
+* hot fix: add missing import by @atmonshi in https://github.com/chrisreedio/socialment/pull/51
+* Bump aglipanci/laravel-pint-action from 2.3.1 to 2.4 by @dependabot in https://github.com/chrisreedio/socialment/pull/54
+* Bump dependabot/fetch-metadata from 2.0.0 to 2.1.0 by @dependabot in https://github.com/chrisreedio/socialment/pull/56
+* add `getProviders` by @atmonshi in https://github.com/chrisreedio/socialment/pull/55
+* (fix): typehint by @pepperfm in https://github.com/chrisreedio/socialment/pull/42
+
+### New Contributors
+
+* @pepperfm made their first contribution in https://github.com/chrisreedio/socialment/pull/42
+
+**Full Changelog**: https://github.com/chrisreedio/socialment/compare/v3.6.1...v3.7.0
+
 ## v3.6.1 - 2024-03-20
 
 ### What's Changed
