@@ -50,6 +50,11 @@ class SocialmentPlugin implements Plugin
         return array_merge(config('socialment.providers'), $this->providers);
     }
 
+    public function getProvider(string $provider): array
+    {
+        return $this->getProviders()[$provider];
+    }
+
     public function register(Panel $panel): void
     {
         $panel->renderHook('panels::auth.login.form.before', function () {
@@ -217,11 +222,12 @@ class SocialmentPlugin implements Plugin
         }
     }
 
-    public function registerProvider(string $provider, string $icon, string $label): static
+    public function registerProvider(string $provider, string $icon, string $label, array $scopes = []): static
     {
         $this->providers[$provider] = [
             'icon' => $icon,
             'label' => $label,
+            'scopes' => $scopes,
         ];
 
         return $this;
