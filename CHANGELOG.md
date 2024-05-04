@@ -5,6 +5,14 @@ All notable changes to `socialment` will be documented in this file.
 > [!NOTE]
 Due to an issue in the workflow that generates this changelog, the first two entries were manually added.
 
+## v3.8.0 - 2024-05-04
+
+### What's Changed
+
+* ✨ feat: Added support for custom scopes in social providers by @chrisreedio in https://github.com/chrisreedio/socialment/pull/58
+
+**Full Changelog**: https://github.com/chrisreedio/socialment/compare/v3.7.0...v3.8.0
+
 ## v3.7.0 - 2024-05-03
 
 ### What's Changed
