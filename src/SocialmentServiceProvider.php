@@ -58,7 +58,7 @@ class SocialmentServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        //
+        $this->app->singleton(SocialmentPlugin::class, fn () => new SocialmentPlugin());
     }
 
     public function packageBooted(): void

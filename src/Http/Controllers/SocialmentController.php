@@ -5,12 +5,15 @@ namespace ChrisReedIO\Socialment\Http\Controllers;
 use ChrisReedIO\Socialment\Exceptions\AbortedLoginException;
 use ChrisReedIO\Socialment\Facades\Socialment;
 use ChrisReedIO\Socialment\Models\ConnectedAccount;
+use ChrisReedIO\Socialment\SocialmentPlugin;
 use Exception;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use JetBrains\PhpStorm\Deprecated;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -25,7 +28,7 @@ class SocialmentController extends BaseController
      */
     public function redirect(string $provider): RedirectResponse
     {
-        return Socialite::driver($provider)->redirect();
+        return $this->getProviderRedirect($provider);
     }
 
     public function redirectSpa(string $provider): RedirectResponse
@@ -33,7 +36,7 @@ class SocialmentController extends BaseController
         // Store the referring url in the session
         request()->session()->put('socialment.intended.url', request()->headers->get('referer'));
 
-        return Socialite::driver($provider)->redirect();
+        return $this->getProviderRedirect($provider);
     }
 
     public function redirectPanel(string $provider, string $panelId): RedirectResponse
@@ -43,7 +46,19 @@ class SocialmentController extends BaseController
             request()->session()->put('socialment.intended.url', $referer);
         }
 
-        return Socialite::driver($provider)->redirect();
+        return $this->getProviderRedirect($provider);
+    }
+
+    private function getProviderRedirect(string $providerName): \Illuminate\Http\RedirectResponse
+    {
+        /** @var AbstractProvider $provider */
+        $provider = Socialite::driver($providerName);
+        $providerConfig = App::make(SocialmentPlugin::class)->getProvider($providerName);
+        if (! empty($providerConfig['scopes'])) {
+            $provider->scopes($providerConfig['scopes']);
+        }
+
+        return $provider->redirect();
     }
 
     public function callback(string $provider): RedirectResponse
@@ -126,7 +141,7 @@ class SocialmentController extends BaseController
 
             return redirect()->to($intendedUrl);
         } catch (Exception $e) {
-            Session::flash('socialment.error', 'An unknown error occurred: ' . $e->getMessage() . '. Please try again.');
+            Session::flash('socialment.error', 'An unknown error occurred: '.$e->getMessage().'. Please try again.');
 
             return redirect()->to($intendedUrl);
         }
