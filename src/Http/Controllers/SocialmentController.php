@@ -141,7 +141,7 @@ class SocialmentController extends BaseController
 
             return redirect()->to($intendedUrl);
         } catch (Exception $e) {
-            Session::flash('socialment.error', 'An unknown error occurred: '.$e->getMessage().'. Please try again.');
+            Session::flash('socialment.error', 'An unknown error occurred: ' . $e->getMessage() . '. Please try again.');
 
             return redirect()->to($intendedUrl);
         }
