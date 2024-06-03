@@ -17,7 +17,6 @@ use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\InvalidStateException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use function config;
 use function redirect;
 use function request;
 

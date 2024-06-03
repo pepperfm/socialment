@@ -251,7 +251,6 @@ class SocialmentPlugin implements Plugin
             ]);
     }
 
-
     public function registerProvider(string $provider, string $icon, string $label, array $scopes = []): static
     {
         $this->providers[$provider] = [
