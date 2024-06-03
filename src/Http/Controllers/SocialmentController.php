@@ -70,8 +70,6 @@ class SocialmentController extends BaseController
             /** @var \SocialiteProviders\Manager\OAuth2\User $socialUser */
             $socialUser = Socialite::driver($provider)->user();
 
-            $userModel = config('socialment.models.user');
-
             $tokenExpiration = match ($provider) {
                 'azure' => now()->addSeconds($socialUser->expiresIn),
                 default => null,
@@ -94,11 +92,7 @@ class SocialmentController extends BaseController
             if (! $connectedAccount->exists) {
                 // Check for an existing user with this email
                 // Create a new user if one doesn't exist
-                $user = $userModel::where('email', $socialUser->getEmail())->first()
-                    ?? $userModel::create([
-                        'name' => $socialUser->getName() ?? $socialUser->getNickname(),
-                        'email' => $socialUser->getEmail(),
-                    ]);
+                $user = Socialment::createUser($connectedAccount);
 
                 // Associate the user and save this connected account
                 $connectedAccount->user()->associate($user)->save();
@@ -120,30 +114,21 @@ class SocialmentController extends BaseController
             Auth::login($connectedAccount->user);
 
             Socialment::executePostLogin($connectedAccount);
-
-            // Redirect to the intended URL if it exists
-            if ($intendedUrl) {
-                return redirect()->to($intendedUrl);
-            }
-
-            // Fallback to the default login url (which will take us to the right place since we're logged in)
-            return redirect()->to(Filament::getLoginUrl());
         } catch (InvalidStateException $e) {
             Session::flash('socialment.error', 'Something went wrong. Please try again.');
-
-            return redirect()->to($intendedUrl);
         } catch (\GuzzleHttp\Exception\ClientException $e) {
             Session::flash('socialment.error', 'We had a problem contacting the authentication server. Please try again.');
-
-            return redirect()->to($intendedUrl);
         } catch (AbortedLoginException $e) {
             Session::flash('socialment.error', $e->getMessage());
-
-            return redirect()->to($intendedUrl);
         } catch (Exception $e) {
             Session::flash('socialment.error', 'An unknown error occurred: ' . $e->getMessage() . '. Please try again.');
-
-            return redirect()->to($intendedUrl);
         }
+
+        return redirect()->to($this->getRedirectUrl());
+    }
+
+    private function getRedirectUrl(): string
+    {
+        return request()->session()->pull('socialment.intended.url') ?? Filament::getLoginUrl();
     }
 }

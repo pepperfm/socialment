@@ -30,6 +30,8 @@ class SocialmentPlugin implements Plugin
 
     public static array $globalPostLoginCallbacks = [];
 
+    public ?Closure $createUserClosure;
+
     protected string | Closure | null $loginRoute = null;
 
     protected string | Closure | null $homeRoute = null;
@@ -221,6 +223,34 @@ class SocialmentPlugin implements Plugin
             ($callback)($account);
         }
     }
+
+    // New Standard trying to match Filament proper
+    public function createUserUsing(Closure $closure): static
+    {
+        $this->createUserClosure = $closure;
+
+        return $this;
+    }
+
+    public function createUser(ConnectedAccount $account)
+    {
+        // If the closure is set, use it to create the user
+        if ($this->createUserClosure !== null) {
+            return ($this->createUserClosure)($account);
+        }
+
+        // Otherwise, use the default method - Get the user model from the config
+        $userModel = config('socialment.models.user');
+
+        // Check for an existing user with this email
+        // Create a new user if one doesn't exist
+        return $userModel::where('email', $account->email)->first()
+            ?? $userModel::create([
+                'name' => $account->name,
+                'email' => $account->email,
+            ]);
+    }
+
 
     public function registerProvider(string $provider, string $icon, string $label, array $scopes = []): static
     {
