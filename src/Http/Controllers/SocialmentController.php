@@ -62,9 +62,6 @@ class SocialmentController extends BaseController
 
     public function callback(string $provider): RedirectResponse
     {
-        // If we have a redirect URL use that before a redirect route
-        $intendedUrl = request()->session()->pull('socialment.intended.url');
-
         try {
             /** @var \SocialiteProviders\Manager\OAuth2\User $socialUser */
             $socialUser = Socialite::driver($provider)->user();
