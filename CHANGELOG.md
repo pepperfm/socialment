@@ -5,6 +5,15 @@ All notable changes to `socialment` will be documented in this file.
 > [!NOTE]
 Due to an issue in the workflow that generates this changelog, the first two entries were manually added.
 
+## v3.9.0 - 2024-06-18
+
+### What's Changed
+
+* ✨ feat: added custom user creation logic in `SocialmentPlugin` by @chrisreedio in https://github.com/chrisreedio/socialment/pull/59
+* 🛠️ fix(controllers): added check for null user in `SocialmentController` by @chrisreedio in https://github.com/chrisreedio/socialment/pull/60
+
+**Full Changelog**: https://github.com/chrisreedio/socialment/compare/v3.8.0...v3.9.0
+
 ## v3.8.0 - 2024-05-04
 
 ### What's Changed
