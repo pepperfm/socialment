@@ -30,7 +30,7 @@ class SocialmentPlugin implements Plugin
 
     public static array $globalPostLoginCallbacks = [];
 
-    public ?Closure $createUserClosure;
+    public ?Closure $createUserClosure = null;
 
     protected string | Closure | null $loginRoute = null;
 
