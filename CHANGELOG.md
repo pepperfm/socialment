@@ -5,6 +5,16 @@ All notable changes to `socialment` will be documented in this file.
 > [!NOTE]
 Due to an issue in the workflow that generates this changelog, the first two entries were manually added.
 
+## v3.9.1 - 2024-07-02
+
+### What's Changed
+
+* 🐛 fix: initialized $createUserClosure to null in `SocialmentPlugin.php` by @chrisreedio in https://github.com/chrisreedio/socialment/pull/63
+
+**Full Changelog**: https://github.com/chrisreedio/socialment/compare/v3.9.0...v3.9.1
+
+Thanks to @Cybrarist for finding the bug and suggesting a fix in #62
+
 ## v3.9.0 - 2024-06-18
 
 ### What's Changed
