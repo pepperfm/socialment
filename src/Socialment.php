@@ -2,6 +2,4 @@
 
 namespace ChrisReedIO\Socialment;
 
-class Socialment
-{
-}
+class Socialment {}
