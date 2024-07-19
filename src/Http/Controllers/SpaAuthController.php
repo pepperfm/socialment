@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChrisReedIO\Socialment\Http\Controllers;
 
 use ChrisReedIO\Socialment\Http\Requests\SpaLoginRequest;
-use ChrisReedIO\Socialment\Http\Resources\UserResponse;
+use ChrisReedIO\Socialment\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +27,7 @@ class SpaAuthController extends BaseController
         $user = Auth::user();
 
         // Cookie Auth
-        return UserResponse::make($user);
+        return UserResource::make($user);
 
         // Token Auth
         // Send the token back as a response
@@ -54,7 +56,7 @@ class SpaAuthController extends BaseController
 
     public function me()
     {
-        $resourceClass = config('socialment.spa.responses.me', UserResponse::class);
+        $resourceClass = config('socialment.spa.responses.me', UserResource::class);
 
         return new $resourceClass(Auth::user());
     }

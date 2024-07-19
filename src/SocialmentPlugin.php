@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ChrisReedIO\Socialment;
 
 use ChrisReedIO\Socialment\Models\ConnectedAccount;
@@ -8,6 +10,7 @@ use Filament\Contracts\Plugin;
 use Filament\Facades\Filament;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
@@ -232,7 +235,7 @@ class SocialmentPlugin implements Plugin
         return $this;
     }
 
-    public function createUser(ConnectedAccount $account)
+    public function createUser(ConnectedAccount $account): Model
     {
         // If the closure is set, use it to create the user
         if ($this->createUserClosure !== null) {
@@ -240,6 +243,7 @@ class SocialmentPlugin implements Plugin
         }
 
         // Otherwise, use the default method - Get the user model from the config
+        /** @var class-string<Model> $userModel */
         $userModel = config('socialment.models.user');
 
         // Check for an existing user with this email
@@ -272,10 +276,6 @@ class SocialmentPlugin implements Plugin
     public function isMultiPanel(): bool
     {
         // 'Guess' what setting this should be if it's not explicitly set.
-        if ($this->multiPanel === null) {
-            return count(Filament::getPanels()) > 1;
-        }
-
-        return $this->multiPanel;
+        return $this->multiPanel ?? (count(Filament::getPanels()) > 1);
     }
 }
