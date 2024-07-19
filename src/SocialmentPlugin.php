@@ -11,7 +11,6 @@ use Filament\Facades\Filament;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
 class SocialmentPlugin implements Plugin
@@ -60,9 +59,9 @@ class SocialmentPlugin implements Plugin
     public function register(Panel $panel): void
     {
         $panel->renderHook('panels::auth.login.form.before', function () {
-            $errorMessage = Session::get('socialment.error');
+            $errorMessage = session()->get('socialment.error');
 
-            if (! $this->evaluate($this->visible) || ! $errorMessage) {
+            if (! $errorMessage || ! $this->evaluate($this->visible)) {
                 return '';
             }
 
