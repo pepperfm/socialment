@@ -10,12 +10,8 @@ use Illuminate\Http\Response;
 
 class CsrfCookieController
 {
-    /**
+    /*
      * Return an empty response simply to trigger the storage of the CSRF cookie in the browser.
-     *
-     * @param Request $request
-     *
-     * @return Response|JsonResponse
      */
     public function show(Request $request): Response | JsonResponse
     {

@@ -14,9 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 
-use function array_merge;
-use function config;
-
 class SocialmentPlugin implements Plugin
 {
     use EvaluatesClosures;
@@ -104,7 +101,7 @@ class SocialmentPlugin implements Plugin
     {
         $plugin = app(static::class);
 
-        $plugin->visible = fn () => true;
+        $plugin->visible = static fn () => true;
 
         return $plugin;
     }
