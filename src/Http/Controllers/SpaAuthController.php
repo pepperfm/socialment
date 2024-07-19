@@ -23,8 +23,11 @@ class SpaAuthController extends BaseController
         // Get the 'now logged in' user
         $user = auth()->user();
 
+        /** @var class-string<UserResource> $resourceClass */
+        $resourceClass = config('socialment.spa.responses.me', UserResource::class);
+
         // Cookie Auth
-        return UserResource::make($user);
+        return $resourceClass::make($user);
 
         // Token Auth
         // Send the token back as a response
@@ -51,10 +54,11 @@ class SpaAuthController extends BaseController
         return response()->json(['message' => 'Logged out']);
     }
 
-    public function me()
+    public function me(): UserResource
     {
+        /** @var class-string<UserResource> $resourceClass */
         $resourceClass = config('socialment.spa.responses.me', UserResource::class);
 
-        return new $resourceClass(auth()->user());
+        return $resourceClass::make(auth()->user());
     }
 }

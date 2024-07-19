@@ -244,11 +244,11 @@ class SocialmentPlugin implements Plugin
 
         // Check for an existing user with this email
         // Create a new user if one doesn't exist
-        return $userModel::where('email', $account->email)->first()
-            ?? $userModel::create([
-                'name' => $account->name,
-                'email' => $account->email,
-            ]);
+        return $userModel::firstOrCreate([
+            'email' => $account->email,
+        ], [
+            'name' => $account->name,
+        ]);
     }
 
     public function registerProvider(string $provider, string $icon, string $label, array $scopes = []): static
