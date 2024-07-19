@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Facade;
  * @see \ChrisReedIO\Socialment\SocialmentPlugin
  *
  * @method static static executePreLogin(ConnectedAccount $account)
- * @method static Model|static createUser(ConnectedAccount $account)
+ * @method static Model|null|\Closure createUser(ConnectedAccount $account)
  * @method static static executePostLogin(ConnectedAccount $account)
  */
 class Socialment extends Facade

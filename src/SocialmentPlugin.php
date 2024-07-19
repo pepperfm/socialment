@@ -122,7 +122,7 @@ class SocialmentPlugin implements Plugin
 
     public function userModel(string | Closure $model): static
     {
-        config()->set('socialment.models.user', (($model instanceof Closure) ? $model() : $model));
+        config()->set('socialment.models.user', value($model));
 
         return $this;
     }
@@ -198,7 +198,7 @@ class SocialmentPlugin implements Plugin
         // dd('Count of global hooks: ' . count(self::$loginHooks))
 
         foreach ($this->preLoginCallbacks as $callback) {
-            ($callback)($account);
+            value($callback, $account);
         }
     }
 
@@ -219,7 +219,7 @@ class SocialmentPlugin implements Plugin
     public function executePostLogin(ConnectedAccount $account): void
     {
         foreach ($this->postLoginCallbacks as $callback) {
-            ($callback)($account);
+            value($callback, $account);
         }
     }
 
@@ -231,11 +231,11 @@ class SocialmentPlugin implements Plugin
         return $this;
     }
 
-    public function createUser(ConnectedAccount $account): Model
+    public function createUser(ConnectedAccount $account): null | Closure | Model
     {
         // If the closure is set, use it to create the user
         if ($this->createUserClosure !== null) {
-            return ($this->createUserClosure)($account);
+            return value($this->createUserClosure, $account);
         }
 
         // Otherwise, use the default method - Get the user model from the config

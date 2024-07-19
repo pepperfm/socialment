@@ -85,6 +85,11 @@ class SocialmentController extends BaseController
                 // Check for an existing user with this email
                 // Create a new user if one doesn't exist
                 $user = Socialment::createUser($connectedAccount);
+
+                if ($user === null) {
+                    throw new AbortedLoginException('This account is not authorized to log in.');
+                }
+
                 // Associate the user and save this connected account
                 $connectedAccount->user()->associate($user)->save();
             } else {
