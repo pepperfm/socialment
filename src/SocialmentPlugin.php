@@ -224,7 +224,7 @@ class SocialmentPlugin implements Plugin
     }
 
     // New Standard trying to match Filament proper
-    public function createUserUsing(Closure $closure): static
+    public function createUserUsing(?Closure $closure): static
     {
         $this->createUserClosure = $closure;
 
